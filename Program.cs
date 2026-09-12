@@ -45,18 +45,25 @@ class Program
             Description = "The task title"
         };
 
+        var descriptionArgument = new Argument<string>("description")
+        {
+            Description = "Description of task"
+        };
+
         command.Add(titleArgument);
+        command.Add(descriptionArgument);
 
         command.SetAction(parseResult =>
         {
             var title = parseResult.GetValue(titleArgument)!;
-            CreateTask(title);
+            var description = parseResult.GetValue(descriptionArgument) ?? "";
+            CreateTask(title, description);
         });
 
         return command;
     }
 
-    static void CreateTask(string title)
+    static void CreateTask(string title, string description)
     {
         var folder = DateTime.Now.ToString("yyyyMMdd-HHmmss");
         var folderPath = Path.Combine(MainFolder, folder);
@@ -71,7 +78,7 @@ class Program
             - Completed: false
             - Tags: [tag1,tag2,tag3]
             ------------------------------
-            You can add a description here
+            {description ?? ""}
             """;
 
         File.WriteAllText(taskFile, content);
@@ -82,64 +89,55 @@ class Program
     static Command GetTasksCommand()
     {
         var command = new Command("tasks", "Get all tasks");
-        var files = Directory.EnumerateFiles(
-            MainFolder,
-            "task.md",
-            SearchOption.AllDirectories
-        );
-        if (files?.Count() == 0)
+
+        command.SetAction(_ =>
         {
-            Console.WriteLine("No current tasks");
-            return command;
-        }
-        var taskLists = new List<TaskItem>();
-        foreach (var file in files)
-        {
-            var folder = new FileInfo(file).Directory;
-            var uri = new Uri(file?.ToString() ?? "").AbsoluteUri;
-            var uniqueId = Directory.GetParent(file.ToString())?.Name;
-            var lines = File.ReadLines(file).Take(5).ToList();
-
-            var title = lines.FirstOrDefault()?.Substring(2);
-            var priorityLine = lines.ElementAtOrDefault(2);
-
-            var priority = int.TryParse(
-                priorityLine?.Split(':', 2)[1].Trim(),
-                out var priorityValue
-            )
-                ? priorityValue
-                : 0;
-
-            var completedLine = lines.ElementAtOrDefault(3);
-            var isCompleted = bool.TryParse(
-                completedLine?.Split(':', 2)[1].Trim(),
-                out var completedValue
-            )
-                ? completedValue
-                : false;
-
-            taskLists.Add(new TaskItem()
+            var files = Directory.EnumerateFiles(MainFolder, "task.md", SearchOption.AllDirectories);
+            if (!files.Any())
             {
-                Title = title,
-                UniqueId = uniqueId,
-                Priority = priority,
-                Link = uri,
-                IsCompleted = isCompleted
-            });
-        }
+                Console.WriteLine("No current tasks");
+                return;
+            }
 
-        foreach(var item in taskLists.Where(x => x.IsCompleted == false).OrderByDescending(x => x.Priority)){
-            Console.Write($"\u001b]8;;{item.Link}\u001b\\{item.UniqueId}\u001b]8;;\u001b\\  - {item.Title} - Priority: {item.Priority}\n");
-        }
+            var taskLists = new List<TaskItem>();
+            foreach (var file in files)
+            {
+                var uri = new Uri(file).AbsoluteUri;
+                var uniqueId = Directory.GetParent(file)?.Name ?? "";
+                var lines = File.ReadLines(file).Take(5).ToList();
+
+                var title = lines.FirstOrDefault()?.Substring(2) ?? "";
+                var priorityText = lines.ElementAtOrDefault(2)?.Split(':', 2).ElementAtOrDefault(1)?.Trim();
+                var priority = int.TryParse(priorityText, out var priorityValue) ? priorityValue : 0;
+
+                var completedText = lines.ElementAtOrDefault(3)?.Split(':', 2).ElementAtOrDefault(1)?.Trim();
+                var isCompleted = bool.TryParse(completedText, out var completedValue) && completedValue;
+
+                taskLists.Add(new TaskItem
+                {
+                    Title = title,
+                    UniqueId = uniqueId,
+                    Priority = priority,
+                    Link = uri,
+                    IsCompleted = isCompleted
+                });
+            }
+
+            foreach (var item in taskLists.Where(x => !x.IsCompleted).OrderByDescending(x => x.Priority))
+            {
+                Console.Write($"\u001b]8;;{item.Link}\u001b\\{item.UniqueId}\u001b]8;;\u001b\\  - {item.Title} - Priority: {item.Priority}\n");
+            }
+        });
+
         return command;
     }
 
     public class TaskItem
     {
-        public string Title { get; set; }
-        public string UniqueId { get; set; }
+        public string Title { get; set; } = "";
+        public string UniqueId { get; set; } = "";
         public int Priority { get; set; }
-        public string Link { get; set; }
+        public string Link { get; set; } = "";
         public bool IsCompleted { get; set; }
     }
 }

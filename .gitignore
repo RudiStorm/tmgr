@@ -1,7 +1,7 @@
 # Build results
 [Bb]in/
 [Oo]bj/
-[Aa]rtifacts/
+artifacts/
 
 # Test results
 [Tt]est[Rr]esult*/
@@ -25,10 +25,8 @@ TestResults/
 *.nupkg
 *.snupkg
 packages/
-!packages/build/
 project.lock.json
 project.fragment.lock.json
-artifacts/
 
 # OS files
 .DS_Store
