@@ -1,6 +1,6 @@
 # Create get tasks
 ------------------------------
-- Priority: 1000
+- Priority: 10
 - Completed: false
 - Tags: [tag1,tag2,tag3]
 ------------------------------

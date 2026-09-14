@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 620" role="img" aria-labelledby="title desc">
+  <title id="title">tmgr command line task manager</title>
+  <desc id="desc">A dark terminal workspace showing the tmgr task table and Markdown task files.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#071018"/>
+      <stop offset="1" stop-color="#1d2b39"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#162431"/>
+      <stop offset="1" stop-color="#0a1119"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="620" fill="url(#bg)"/>
+  <circle cx="110" cy="90" r="180" fill="#13d7a0" opacity=".08"/>
+  <text x="82" y="188" fill="#f4f8fb" font-family="Georgia,serif" font-size="106" font-weight="700">tmgr</text>
+  <rect x="86" y="220" width="100" height="7" rx="3" fill="#25dfad"/>
+  <text x="86" y="278" fill="#d9e5ed" font-family="Arial,sans-serif" font-size="30">No browser. No account.</text>
+  <text x="86" y="320" fill="#d9e5ed" font-family="Arial,sans-serif" font-size="30">No database. Just files.</text>
+  <text x="86" y="384" fill="#91aabd" font-family="monospace" font-size="22">A simple CLI task manager</text>
+  <text x="86" y="416" fill="#91aabd" font-family="monospace" font-size="22">built around Markdown</text>
+  <rect x="510" y="82" width="760" height="430" rx="18" fill="url(#card)" stroke="#40576d" stroke-width="3"/>
+  <circle cx="548" cy="116" r="8" fill="#ff5d5d"/><circle cx="574" cy="116" r="8" fill="#f8bd45"/><circle cx="600" cy="116" r="8" fill="#31d77a"/>
+  <text x="548" y="170" fill="#22e0b1" font-family="monospace" font-size="22">$ tmgr tasks</text>
+  <text x="548" y="220" fill="#b9cad7" font-family="monospace" font-size="17">ID  P   TASK                                      MODIFIED</text>
+  <path d="M548 235h665" stroke="#40576d"/>
+  <g fill="#e5edf2" font-family="monospace" font-size="18">
+    <text x="548" y="275">1  [!] Create get tasks                         2h ago</text>
+    <text x="548" y="313">2  [~] Add search command                        4h ago</text>
+    <text x="548" y="351">3  [-] Improve help text                         1d ago</text>
+    <text x="548" y="389">4  [ ] Create demo video                         1d ago</text>
+    <text x="548" y="427">5  [ ] Plan v0.2 release                         2d ago</text>
+  </g>
+  <text x="548" y="473" fill="#8fa6b8" font-family="monospace" font-size="16">5 tasks</text>
+  <text x="1210" y="575" text-anchor="end" fill="#7890a3" font-family="monospace" font-size="16">Small tasks. A calmer you.</text>
+</svg>

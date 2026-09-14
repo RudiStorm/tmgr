@@ -1,5 +1,7 @@
 # tmgr
 
+![tmgr task manager](assets/tmgr-overview.svg)
+
 `tmgr` is a small cross-platform command-line task manager built with .NET. It stores tasks as plain Markdown files, so they are easy to read, edit, and keep under version control.
 
 ## Installation
@@ -35,6 +37,15 @@ tmgr tasks
 ```
 
 Tasks with `Completed: false` are displayed in descending priority order. Completed tasks are omitted.
+
+The command displays open tasks in a compact table. The `P` column uses `[!]` for priority 1000 or higher, `[~]` for priority 500-999, `[-]` for other positive priorities, and `[ ]` for zero or negative priorities. Task rows link to their Markdown files in terminals that support hyperlinks.
+
+```text
+ ID  P   TASK                                      MODIFIED
+--- --- ----------------------------------------- --------
+  1 [!] Create get tasks                           2h ago
+  2 [-] Sample Task                                1d ago
+```
 
 ## Task format
 
